@@ -24,6 +24,8 @@ This repository contains the GPIO driver for the STM32F103 microcontroller, part
 - **`AFIO_ENR`**: Enables or disables alternate functions on specific GPIO pins.
 - **`AFIO_EXTRICR`**: Configures external interrupt settings for GPIO pins using AFIO
 
+## Functions
+
 ### GPIO Initialization
 
 #### `GPIO_PinInit`
