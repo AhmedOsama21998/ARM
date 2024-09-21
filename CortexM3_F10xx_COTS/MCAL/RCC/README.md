@@ -28,7 +28,7 @@ This repository contains a set of drivers for configuring and managing the Reset
 
 ## Functions
 
-### `HAL_Status_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit)`
+### `ErrorStatus_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit)`
 
 Configures system oscillators based on the provided `RCC_OscInit` structure. 
 
@@ -36,10 +36,10 @@ Configures system oscillators based on the provided `RCC_OscInit` structure.
 - `RCC_OscInit`: Pointer to a structure containing oscillator configuration settings.
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
-### `HAL_Status_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type)`
+### `ErrorStatus_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type)`
 
 Sets the system clock source.
 
@@ -47,10 +47,10 @@ Sets the system clock source.
 - `Clk_type`: The clock source to set (HSI, HSE, PLL, or none).
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
-### `HAL_Status_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL, uint8_t PLL_SRC)`
+### `ErrorStatus_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL, uint8_t PLL_SRC)`
 
 Configures the PLL settings.
 
@@ -59,10 +59,10 @@ Configures the PLL settings.
 - `PLL_SRC`: PLL source (HSE or HSI).
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
-### `HAL_Status_t RCC_HSE_Config(uint8_t HSE_State)`
+### `ErrorStatus_t RCC_HSE_Config(uint8_t HSE_State)`
 
 Configures the HSE divider.
 
@@ -70,10 +70,10 @@ Configures the HSE divider.
 - `HSE_State`: Divider setting (e.g., HSE_DIV_1 or HSE_DIV_2).
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
-### `HAL_Status_t RCC_EnableClk(BusPrephiral_t BusName, uint8_t Prephiral)`
+### `ErrorStatus_t RCC_EnableClk(BusPrephiral_t BusName, uint8_t Prephiral)`
 
 Enables the clock for a specified peripheral.
 
@@ -82,10 +82,10 @@ Enables the clock for a specified peripheral.
 - `Prephiral`: The peripheral to enable.
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
-### `HAL_Status_t RCC_DisableCLK(BusPrephiral_t BusName, uint8_t Prephiral)`
+### `ErrorStatus_t RCC_DisableCLK(BusPrephiral_t BusName, uint8_t Prephiral)`
 
 Disables the clock for a specified peripheral.
 
@@ -94,8 +94,8 @@ Disables the clock for a specified peripheral.
 - `Prephiral`: The peripheral to disable.
 
 **Returns:**
-- `HAL_OK` if successful.
-- `HAL_ERROR` if there is an error.
+- `OK` if successful.
+- `ERROR` if there is an error.
 
 ## Usage
 
