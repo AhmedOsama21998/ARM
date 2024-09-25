@@ -7,16 +7,9 @@
 #ifndef RCC_STM32F103_RCC_H_
 #define RCC_STM32F103_RCC_H_
 
-#include"stdint.h"
+#include "../LIB/Std_Types.h"
 /******************* Macro Declations *******************/
-#define NULL								0
-#define SET_BIT(REG, BIT)   				((REG) |= (BIT))
-#define CLEAR_BIT(REG, BIT)  				((REG) &= ~(BIT))
-#define READ_BIT(REG, BIT)   				((REG) & (BIT))
 
-#define READ_REG(REG)						((REG))
-#define WRITE_REG(REG,VAL)					((REG) =(VAL))
-#define MODIFY_REG(REG,CLEARMASK,SETMASK)	WRITE_REG((REG) ,((READ_REG(REG)) & (~(CLEARMASK))) | (SETMASK))
 
 #define RCC					((RCC_Reg_t *)0x40021000UL)
 #define RCC_OSCTYPE_NONE	0x00000000U
@@ -74,14 +67,6 @@
 #define RCC_HSE		0U
 #define RCC_HSI		1U
 
-typedef enum
-{
-	HAL_OK				= 0x00U,
-	HAL_ERROR			= 0x01U,
-	HAL_BUSY    		= 0x02U,
-	HAL_TIMEOUT 		= 0x03U,
-	SysClockConfigERROR = 0x04U,
-}HAL_Status_t;
 
 typedef enum
 {
@@ -92,27 +77,27 @@ typedef enum
 /******************* Macro Functions Declations for RCC_APB2ENR Resgister ******************/
 typedef enum
 {
-	AFIO =0,
-	GPIOA =2,GPIOB,GPIOC,GPIOD,GPIOE,GPIOF,GPIOG,
-	ADC1,ADC2,
-	TIM1,SPI1,TIM8,USART1,ADC3,
-	TIM9=19,TIM10,TIM11,
+	RCC_AFIO =0,
+	RCC_GPIOA =2,RCC_GPIOB,RCC_GPIOC,RCC_GPIOD,RCC_GPIOE,RCC_GPIOF,RCC_GPIOG,
+	RCC_ADC1,RCC_ADC2,
+	RCC_TIM1,RCC_SPI1,RCC_TIM8,RCC_USART1,RCC_ADC3,
+	RCC_TIM9=19,RCC_TIM10,RCC_TIM11,
 }RCC_APB2ENR_t;
 /******************* Macro Functions Declations for RCC_AHBENR Resgister ******************/
 typedef enum
 {
-	DMA1,DMA2,SRAM,FLITF=4,CRC=6,FSMC=8,SDIO=10
+	RCC_DMA1,RCC_DMA2,RCC_SRAM,RCC_FLITF=4,RCC_CRC=6,RCC_FSMC=8,RCC_SDIO=10
 }RCC_AHBENR_t;
 /******************* Macro Functions Declations for RCC_APB1ENR Resgister ******************/
 typedef enum
 {
-	TIM2,TIM3,TIM4,TIM5,TIM6,TIM7,TIM12,TIM13,TIM14,
-	WWDG=11,
-	SPI2=14,SPI3,
-	USART2=17,USART3,USART4,USART5,
-	I2C1,I2C2,
-	USB,CAN=25,
-	BKP=27,PWR,DAC,
+	RCC_TIM2,RCC_TIM3,RCC_TIM4,RCC_TIM5,RCC_TIM6,RCC_TIM7,RCC_TIM12,RCC_TIM13,RCC_TIM14,
+	RCC_WWDG=11,
+	RCC_SPI2=14,RCC_SPI3,
+	RCC_USART2=17,RCC_USART3,RCC_USART4,RCC_USART5,
+	RCC_I2C1,RCC_I2C2,
+	RCC_USB,RCC_CAN=25,
+	RCC_BKP=27,RCC_PWR,RCC_DAC,
 }RCC_APB1ENR_t;
 
 /******************* Macro Functions Declations for RCC_CR Resgister ******************/
@@ -201,12 +186,12 @@ typedef struct
 
 /******************* Software Interface Declarations *******************/
 
-HAL_Status_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit);
-//HAL_Status_t RCC_ClockConfig(RCC_ClkInit_t *RCC_ClkInit);
-HAL_Status_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type);
-HAL_Status_t RCC_HSE_Config(uint8_t HSE_State);
-HAL_Status_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC);
-HAL_Status_t RCC_EnableClk(BusPrephiral_t BusName,uint8_t Prephiral);
-HAL_Status_t RCC_DisableCLK(BusPrephiral_t BusName,uint8_t Prephiral);
+ErrorStatus_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit);
+//ErrorStatus_t RCC_ClockConfig(RCC_ClkInit_t *RCC_ClkInit);
+ErrorStatus_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type);
+ErrorStatus_t RCC_HSE_Config(uint8_t HSE_State);
+ErrorStatus_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC);
+ErrorStatus_t RCC_EnableClk(BusPrephiral_t BusName,uint8_t Prephiral);
+ErrorStatus_t RCC_DisableCLK(BusPrephiral_t BusName,uint8_t Prephiral);
 
 #endif /* RCC_STM32F103_RCC_H_ */

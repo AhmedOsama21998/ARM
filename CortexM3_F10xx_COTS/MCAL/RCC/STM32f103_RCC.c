@@ -5,12 +5,12 @@
  *      Author: Ahmed Osama
  */
 #include "STM32f103_RCC.h"
-HAL_Status_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit)
+ErrorStatus_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	if(NULL == RCC_OscInit)
 	{
-		status = HAL_ERROR;
+		status = ERROR;
 	}
 	else
 	{
@@ -54,14 +54,14 @@ HAL_Status_t RCC_OscConfig(RCC_OscInit_t *RCC_OscInit)
 			 {
 				 RCC_CSR_LSION_DISABLE();
 			 }
-		 }else{status = HAL_ERROR;/*Nothing*/}
+		 }else{status = ERROR;/*Nothing*/}
 	}
 	return status;
 }
 
-HAL_Status_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type)
+ErrorStatus_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	switch (Clk_type)
 	{
 		case RCC_HSI_SYSCLK:
@@ -81,14 +81,14 @@ HAL_Status_t RCC_SetSysClk(RCC_SWSYSCLK_t Clk_type)
 			RCC->RCC_CFGR |= Clk_type;
 			break;
 		default:
-			status = HAL_ERROR;
+			status = ERROR;
 			break;
 	 }
 	return status;
 }
-HAL_Status_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC)
+ErrorStatus_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 
 	switch (PLL_SRC)
 	{
@@ -99,7 +99,7 @@ HAL_Status_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC)
 		RCC_CFGR_PLL_CLKSRC_HSI();
 		break;
 	default:
-		status = HAL_ERROR;
+		status = ERROR;
 		break;
 	}
 	RCC->RCC_CFGR &=   ~RCC_CFGR_PLLMULL_Msk;
@@ -107,12 +107,12 @@ HAL_Status_t RCC_PLL_Config(RCC_PLLMULL_t PLL_MUL,uint8_t PLL_SRC)
 return status;
 }
 
- HAL_Status_t RCC_HSE_Config(uint8_t HSE_State)
+ErrorStatus_t RCC_HSE_Config(uint8_t HSE_State)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	if(3 == HSE_State)
 	{
-		status = HAL_ERROR;
+		status = ERROR;
 	}else
 	{
 		switch (HSE_State)
@@ -124,7 +124,7 @@ return status;
 			RCC_CFGR_HSE_DIV_2();
 			break;
 		default:
-			status = HAL_ERROR;
+			status = ERROR;
 			break;
 		}
 	 }
@@ -132,12 +132,12 @@ return status;
 }
 
 /*
-HAL_Status_t RCC_ClockConfig(RCC_ClkInit_t *RCC_ClkInit)
+ErrorStatus_t RCC_ClockConfig(RCC_ClkInit_t *RCC_ClkInit)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	if(NULL == RCC_ClkInit)
 	{
-		status = HAL_ERROR;
+		status = ERROR;
 	}
 	else
 	{
@@ -148,12 +148,12 @@ HAL_Status_t RCC_ClockConfig(RCC_ClkInit_t *RCC_ClkInit)
 	return status;
 }
 */
-HAL_Status_t RCC_EnableClk(BusPrephiral_t BusName,uint8_t Prephiral)
+ErrorStatus_t RCC_EnableClk(BusPrephiral_t BusName,uint8_t Prephiral)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	if(-1 == Prephiral)
 	{
-		status = HAL_ERROR;
+		status = ERROR;
 	}else
 	{
         switch(BusName)
@@ -168,19 +168,18 @@ HAL_Status_t RCC_EnableClk(BusPrephiral_t BusName,uint8_t Prephiral)
             	RCC->RCC_APB2ENR  |= (1 << Prephiral);
                 break;
             default:
-            	status = HAL_ERROR;
+            	status = ERROR;
                 break;
         }
 	}
 	return status;
 }
-
-HAL_Status_t RCC_DisableCLK(BusPrephiral_t BusName,RCC_AHBENR_t Prephiral)
+ErrorStatus_t RCC_DisableCLK(BusPrephiral_t BusName,RCC_AHBENR_t Prephiral)
 {
-	HAL_Status_t status = HAL_OK;
+	ErrorStatus_t status = OK;
 	if(-1 == Prephiral)
 	{
-		status = HAL_ERROR;
+		status = ERROR;
 	}else
 	{
         switch(BusName)
@@ -195,7 +194,7 @@ HAL_Status_t RCC_DisableCLK(BusPrephiral_t BusName,RCC_AHBENR_t Prephiral)
             	RCC->RCC_APB2ENR &= ~(1 << Prephiral);
                 break;
             default:
-            	status = HAL_ERROR;
+            	status = ERROR;
                 break;
         }
 	}

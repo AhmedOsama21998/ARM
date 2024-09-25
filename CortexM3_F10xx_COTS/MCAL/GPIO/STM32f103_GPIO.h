@@ -144,13 +144,20 @@ typedef struct
 	volatile uint32_t MAPR2;
 }AFIO_Reg_t;
 
+typedef enum {
+	PortInput = 0,
+	PortOutput
+} PortDirection_t;
 
 
 /******************* Software Interface Declarations *******************/
 ErrorStatus_t GPIO_PinInit(const PinConfig_t * PinConfig);
 ErrorStatus_t GPIO_WritePin(Port_t Port,Pin_t PinNum,PinVal_t PinVal);
 ErrorStatus_t GPIO_TogglePin(Port_t Port,Pin_t PinNum);
-ErrorStatus_t GPIO_ReadPin(Port_t Port,Pin_t PinNum,PinVal_t* PinVal);
+ErrorStatus_t GPIO_ReadPin(Port_t Port,Pin_t PinNum,PinVal_t *PinVal);
+ErrorStatus_t GPIO_SetPortValue(Port_t Port, uint32_t Value);
+ErrorStatus_t GPIO_SetPortDirection(Port_t Port, uint32_t PinMask, PortDirection_t Direction);
+ErrorStatus_t GPIO_SetSpecificPinsValue(Port_t Port, uint32_t Value, uint8_t StartPin, uint8_t NumPins);
 ErrorStatus_t AFIO_ENR(const PinConfig_t * AFIOConfig);
 ErrorStatus_t AFIO_EXTRICR(const PinConfig_t * AFIOConfig);
 
