@@ -1,107 +1,86 @@
 # STM32F103 GPIO Driver
 
-## Overview
-
-This repository contains the GPIO driver for the STM32F103 microcontroller, part of the ARM Cortex-M3 series. The driver allows users to configure and control the GPIO (General Purpose Input/Output) pins and Alternate Function Input/Output (AFIO) functionalities.
+This directory contains the GPIO (General Purpose Input/Output) driver for the STM32F103 Cortex-M3 microcontroller. The driver provides functions for configuring and managing the GPIO ports and pins for input/output operations, setting pin values, reading pin states, and configuring the direction of pins.
 
 ## Features
 
-- **Pin Initialization**: Supports configuration of GPIO pins in various modes (input, output, alternate function) with control over speed and resistor settings (pull-up/pull-down).
-- **Pin Control**: Functions to write to, toggle, and read from GPIO pins.
-- **AFIO Configuration**: Enables configuration of alternate functions for advanced pin multiplexing.
-
-## Functions Description
-
-### GPIO Initialization
-- **`GPIO_PinInit`**: Initializes GPIO pins based on the `PinConfig_t` structure, setting the mode, type, and speed.
-
-### GPIO Pin Operations
-- **`GPIO_WritePin`**: Writes a high or low state to a specific GPIO pin.
-- **`GPIO_TogglePin`**: Toggles the state of a specific GPIO pin.
-- **`GPIO_ReadPin`**: Reads the current state of a specific GPIO pin.
-
-### AFIO Control
-- **`AFIO_ENR`**: Enables or disables alternate functions on specific GPIO pins.
-- **`AFIO_EXTRICR`**: Configures external interrupt settings for GPIO pins using AFIO
+- Configure GPIO pins as input or output.
+- Set or read the value of specific pins.
+- Set or read the value of entire GPIO ports.
+- Error handling and status reporting for invalid parameters.
+- Support for setting specific pins within a port without affecting others.
 
 ## Functions
 
-### GPIO Initialization
+### `ErrorStatus_t GPIO_InitPin(Port_t Port, Pin_t Pin, PinMode_t Mode)`
 
-#### `GPIO_PinInit`
-Initializes GPIO pins based on the provided configuration.
+- **Description**: Initializes a specific pin with a specified mode (input/output).
+- **Parameters**:
+  - `Port`: Specifies the port (e.g., PORTA, PORTB).
+  - `Pin`: The pin number to configure.
+  - `Mode`: The mode of the pin (input, output, pull-up, pull-down, etc.).
+- **Returns**: `ErrorStatus_t` (OK or ERROR).
 
-**Parameters:**
-- `PinConfig_t *pinConfig`: Pointer to a structure that defines the GPIO pin configuration, including port, pin number, mode, output type, and speed.
+### `ErrorStatus_t GPIO_SetPinValue(Port_t Port, Pin_t Pin, PinState_t State)`
 
-**Returns:**
-- `HAL_Status_t`: Status of the initialization, either `HAL_OK` or `HAL_ERROR`.
+- **Description**: Sets the value (HIGH or LOW) of a specific pin.
+- **Parameters**:
+  - `Port`: The port of the pin (e.g., PORTA, PORTB).
+  - `Pin`: The pin number to set the value for.
+  - `State`: The state to set (HIGH or LOW).
+- **Returns**: `ErrorStatus_t` (OK or ERROR).
 
-### GPIO Pin Operations
+### `PinState_t GPIO_GetPinValue(Port_t Port, Pin_t Pin)`
 
-#### `GPIO_WritePin`
-Writes a high or low state to a specific GPIO pin.
+- **Description**: Reads the current value of a specific pin.
+- **Parameters**:
+  - `Port`: The port of the pin (e.g., PORTA, PORTB).
+  - `Pin`: The pin number to read.
+- **Returns**: `PinState_t` (HIGH or LOW).
 
-**Parameters:**
-- `GPIO_Port_t port`: The port to which the pin belongs (e.g., `PORTA`, `PORTB`).
-- `GPIO_Pin_t pin`: The pin number to write to (e.g., `PIN0`, `PIN1`).
-- `GPIO_PinState_t state`: The desired state for the pin (`PIN_HIGH` or `PIN_LOW`).
+### `ErrorStatus_t GPIO_SetPortValue(Port_t Port, uint32_t Value)`
 
-**Returns:**
-- `HAL_Status_t`: Status of the operation, either `HAL_OK` or `HAL_ERROR`.
+- **Description**: Sets the value of an entire port.
+- **Parameters**:
+  - `Port`: The port to set the value for (e.g., PORTA, PORTB).
+  - `Value`: The 32-bit value to assign to the port.
+- **Returns**: `ErrorStatus_t` (OK or ERROR).
 
-#### `GPIO_TogglePin`
-Toggles the state of a specific GPIO pin.
+### `ErrorStatus_t GPIO_SetPortDirection(Port_t Port, uint32_t PinMask, PinMode_t Mode)`
 
-**Parameters:**
-- `GPIO_Port_t port`: The port to which the pin belongs (e.g., `PORTA`, `PORTB`).
-- `GPIO_Pin_t pin`: The pin number to toggle (e.g., `PIN0`, `PIN1`).
+- **Description**: Configures the direction (input/output) of multiple pins in a port.
+- **Parameters**:
+  - `Port`: The port of the pins (e.g., PORTA, PORTB).
+  - `PinMask`: A bitmask representing the pins to configure.
+  - `Mode`: The mode for the selected pins (input, output, etc.).
+- **Returns**: `ErrorStatus_t` (OK or ERROR).
 
-**Returns:**
-- `HAL_Status_t`: Status of the operation, either `HAL_OK` or `HAL_ERROR`.
+### `ErrorStatus_t GPIO_SetSpecificPinValue(Port_t Port, Pin_t StartPin, uint32_t Value, uint8_t PinCount)`
 
-#### `GPIO_ReadPin`
-Reads the current state of a specific GPIO pin.
+- **Description**: Sets the value for a specific range of pins in a port.
+- **Parameters**:
+  - `Port`: The port containing the pins (e.g., PORTA, PORTB).
+  - `StartPin`: The starting pin in the range.
+  - `Value`: The value to assign to the range of pins.
+  - `PinCount`: The number of pins to modify, starting from `StartPin`.
+- **Returns**: `ErrorStatus_t` (OK or ERROR).
 
-**Parameters:**
-- `GPIO_Port_t port`: The port to which the pin belongs (e.g., `PORTA`, `PORTB`).
-- `GPIO_Pin_t pin`: The pin number to read (e.g., `PIN0`, `PIN1`).
-
-**Returns:**
-- `GPIO_PinState_t`: The current state of the pin (`PIN_HIGH` or `PIN_LOW`).
-
-### AFIO Control
-
-#### `AFIO_ENR`
-Enables or disables alternate functions on specific GPIO pins.
-
-**Parameters:**
-- `uint8_t AFIO_State`: The state of the AFIO (`AFIO_ENABLE` or `AFIO_DISABLE`).
-
-**Returns:**
-- `HAL_Status_t`: Status of the operation, either `HAL_OK` or `HAL_ERROR`.
-
-#### `AFIO_EXTICR`
-Configures external interrupt settings for GPIO pins using AFIO.
-
-**Parameters:**
-- `GPIO_Port_t port`: The port to which the pin belongs (e.g., `PORTA`, `PORTB`).
-- `GPIO_Pin_t pin`: The pin number to configure (e.g., `PIN0`, `PIN1`).
-- `EXTI_TriggerType_t triggerType`: The type of external interrupt trigger (`EXTI_FALLING`, `EXTI_RISING`, `EXTI_BOTH`).
-
-**Returns:**
-- `HAL_Status_t`: Status of the operation, either `HAL_OK` or `HAL_ERROR`.
+---
 
 ## Usage Example
 
 ```c
-PinConfig_t pinConfig = {
-    .Port = PORTA,
-    .PinNum = PIN0,
-    .Mode.ModeType = OutputMode,
-    .Mode.OutputMode_t = OUTPUT_GP_PUSHPULL,
-    .Mode.OutputSpeed_t = OUTPUT_SPEED_10MHZ
-};
+// Initialize a pin as output
+GPIO_InitPin(PORTA, PIN0, OUTPUT_MODE);
 
-GPIO_PinInit(&pinConfig);  // Initialize PA0 as an output pin
-GPIO_WritePin(PORTA, PIN0, PIN_HIGH);  // Set PA0 to high
+// Set the pin value to HIGH
+GPIO_SetPinValue(PORTA, PIN0, HIGH);
+
+// Read the pin value
+PinState_t pinState = GPIO_GetPinValue(PORTA, PIN0);
+
+// Set the value for an entire port
+GPIO_SetPortValue(PORTB, 0xFFFF);
+
+// Configure the direction of multiple pins in a port
+GPIO_SetPortDirection(PORTC, 0x0F, OUTPUT_MODE);
